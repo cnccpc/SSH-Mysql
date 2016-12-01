@@ -18,13 +18,13 @@ public class SSHMysql2 {
 
 
     /**
-     * ´´½¨ssh´úÀí
-     * @param sshId£¬sshPasswd£¬sshHost£¬localHostIp
+     * åˆ›å»ºsshä»£ç†
+     * @param sshIdï¼ŒsshPasswdï¼ŒsshHostï¼ŒlocalHostIp
      */
     public String LocalHostIP=getLocalHostIP();
 
     public void getConfig(){
-    //»ñÈ¡SSHMysql.propertiesµÄÉèÖÃ
+    //è·å–SSHMysql.propertiesçš„è®¾ç½®
     InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("SSHMysql.properties");
     Properties p = new Properties();
     try {
@@ -32,7 +32,7 @@ public class SSHMysql2 {
     } catch (IOException e1) {
         e1.printStackTrace();
     }
-    System.out.println("»ñÈ¡µ½SSHMysql.propertiesÅäÖÃĞÅÏ¢Îª:"
+    System.out.println("è·å–åˆ°SSHMysql.propertiesé…ç½®ä¿¡æ¯ä¸º:"
             +p.getProperty("sshId")
             +"/"+p.getProperty("sshPasswd")
             +"/"+p.getProperty("sshHost")
@@ -45,7 +45,7 @@ public class SSHMysql2 {
 
         try{
 
-            //»ñÈ¡SSHMysql.propertiesµÄÉèÖÃ
+            //è·å–SSHMysql.propertiesçš„è®¾ç½®
             InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("SSHMysql.properties");
             Properties p = new Properties();
             try {
@@ -59,28 +59,28 @@ public class SSHMysql2 {
             String localHostIp=p.getProperty("localHostIp");
 
             JSch jSch=new JSch();
-            Session session= jSch.getSession(sshId,sshHost,22);//SSHÓÃ»§Ãû£¬Á¬½ÓIP£¬Á¬½Ó¶Ë¿Ú
-            session.setPassword(sshPasswd);//ÃÜÂë
+            Session session= jSch.getSession(sshId,sshHost,22);//SSHç”¨æˆ·åï¼Œè¿æ¥IPï¼Œè¿æ¥ç«¯å£
+            session.setPassword(sshPasswd);//å¯†ç 
             session.setConfig("StrictHostKeyChecking","no");
 
-            System.out.println("±¾µØipµØÖ·£º"+LocalHostIP);
+            System.out.println("æœ¬åœ°ipåœ°å€ï¼š"+LocalHostIP);
             if (LocalHostIP.equals(sshHost)){
-                System.out.println("¾­¼ì²â·¢ÏÖ£¬ÄãµÄÔËĞĞ»·¾³ÎªsshËùÔÚ·şÎñÆ÷£¬ÎŞĞè¿ªÆôssh´úÀí£¡");
+                System.out.println("ç»æ£€æµ‹å‘ç°ï¼Œä½ çš„è¿è¡Œç¯å¢ƒä¸ºsshæ‰€åœ¨æœåŠ¡å™¨ï¼Œæ— éœ€å¼€å¯sshä»£ç†ï¼");
             }else {
-                //¼ì²â5555¶Ë¿ÚÊÇ·ñ¿ªÆô£¬¿ªÆôÔò²»ÔÙÖØ¸´½¨Á¢Á¬½Ó
+                //æ£€æµ‹5555ç«¯å£æ˜¯å¦å¼€å¯ï¼Œå¼€å¯åˆ™ä¸å†é‡å¤å»ºç«‹è¿æ¥
                 if (isLoclePortUsing(5555)) {
-                    System.out.println("ssh´úÀíÒÑ¾­¿ªÆô,ÎŞĞèÖØĞÂÆô¶¯£¡");
+                    System.out.println("sshä»£ç†å·²ç»å¼€å¯,æ— éœ€é‡æ–°å¯åŠ¨ï¼");
                 } else {
 
-                    session.connect();//Á¬½ÓSSH·şÎñÆ÷
-                    System.out.println("Á¬½ÓSSH·şÎñÆ÷");
-                    System.out.println(session.getServerVersion());//ÕâÀï´òÓ¡SSH·şÎñÆ÷°æ±¾ĞÅÏ¢
+                    session.connect();//è¿æ¥SSHæœåŠ¡å™¨
+                    System.out.println("è¿æ¥SSHæœåŠ¡å™¨");
+                    System.out.println(session.getServerVersion());//è¿™é‡Œæ‰“å°SSHæœåŠ¡å™¨ç‰ˆæœ¬ä¿¡æ¯
 
 
-                    //  ÕıÏò´úÀí
-                    int assinged_port = session.setPortForwardingL(localHostIp, 5555, sshHost, 3306);//¶Ë¿ÚÓ³Éä ×ª·¢
+                    //  æ­£å‘ä»£ç†
+                    int assinged_port = session.setPortForwardingL(localHostIp, 5555, sshHost, 3306);//ç«¯å£æ˜ å°„ è½¬å‘
 
-                    System.out.println("´´½¨´úÀíÍê±Ï£¬´úÀíµØÖ·Îª£º" +localHostIp+":"+ assinged_port);
+                    System.out.println("åˆ›å»ºä»£ç†å®Œæ¯•ï¼Œä»£ç†åœ°å€ä¸ºï¼š" +localHostIp+":"+ assinged_port);
                 }
             }
 
@@ -90,15 +90,15 @@ public class SSHMysql2 {
     }
 
     /**
-     * »ñÈ¡±¾»úµÄIP
-     * @return IpµØÖ·
+     * è·å–æœ¬æœºçš„IP
+     * @return Ipåœ°å€
      */
     public static String getLocalHostIP() {
         String ip;
         try {
-            /**·µ»Ø±¾µØÖ÷»ú¡£*/
+            /**è¿”å›æœ¬åœ°ä¸»æœºã€‚*/
             InetAddress addr = InetAddress.getLocalHost();
-            /**·µ»Ø IP µØÖ·×Ö·û´®£¨ÒÔÎÄ±¾±íÏÖĞÎÊ½£©*/
+            /**è¿”å› IP åœ°å€å­—ç¬¦ä¸²ï¼ˆä»¥æ–‡æœ¬è¡¨ç°å½¢å¼ï¼‰*/
             ip = addr.getHostAddress();
         } catch(Exception ex) {
             ip = "";
